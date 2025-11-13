@@ -1,24 +1,19 @@
 pipeline {
     agent any
 
-    environment {
-        PROJECT_DIR = '/var/jenkins_home/workspace/integracion_continua'
-    }
-
     stages {
         stage('Preparar entorno') {
             steps {
                 echo '🔧 Verificando código fuente disponible...'
-                dir("${PROJECT_DIR}") {
-                    sh 'ls -la'
-                }
+                sh 'pwd'
+                sh 'ls -la'
             }
         }
 
         stage('Build Backend') {
             steps {
-                dir("${PROJECT_DIR}") {
-                    echo '⚙️ Construyendo Backend...'
+                echo '⚙️ Construyendo Backend...'
+                dir('/workspace') {
                     sh 'docker-compose build hr-backend'
                 }
             }
@@ -26,8 +21,8 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                dir("${PROJECT_DIR}") {
-                    echo '🧱 Construyendo Frontend...'
+                echo '🧱 Construyendo Frontend...'
+                dir('/workspace') {
                     sh 'docker-compose build hr-frontend'
                 }
             }
@@ -35,17 +30,17 @@ pipeline {
 
         stage('Stop Old Containers') {
             steps {
-                dir("${PROJECT_DIR}") {
-                    echo '🛑 Deteniendo contenedores anteriores...'
-                    sh 'docker-compose down hr-backend hr-frontend || true'
+                echo '🛑 Deteniendo contenedores anteriores...'
+                dir('/workspace') {
+                    sh 'docker-compose stop hr-backend hr-frontend || true'
                 }
             }
         }
 
         stage('Deploy') {
             steps {
-                dir("${PROJECT_DIR}") {
-                    echo '🚀 Desplegando aplicación...'
+                echo '🚀 Desplegando aplicación...'
+                dir('/workspace') {
                     sh 'docker-compose up -d hr-db hr-backend hr-frontend'
                 }
             }
@@ -53,11 +48,11 @@ pipeline {
 
         stage('Verify') {
             steps {
-                dir("${PROJECT_DIR}") {
-                    echo '🔍 Verificando despliegue...'
+                echo '🔍 Verificando despliegue...'
+                dir('/workspace') {
                     sh 'docker-compose ps'
-                    sh 'sleep 5'
-                    sh 'curl -f http://localhost:8000/ || exit 1'
+                    sh 'sleep 10'
+                    sh 'curl -f http://hr-backend:8000/ || curl -f http://localhost:8000/ || exit 1'
                 }
             }
         }
