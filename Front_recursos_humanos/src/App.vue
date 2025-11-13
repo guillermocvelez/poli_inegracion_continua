@@ -35,7 +35,7 @@ onMounted(() => {
 
 <template>
   <div class="container">
-    <h1>Proyecto entrega Integración continua Politécnico Grancolombiano</h1>
+    <h1>Proyecto entrega Integración continua Politécnico Grancolombiano de la clase integracion continua</h1>
     <h2>Hacemos un cambio menor dentro del código para probar el webhook</h2>
     
     <div class="empleados-section">
