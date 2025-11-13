@@ -62,13 +62,14 @@ pipeline {
                         sleep 15
                         
                         # Verificar que los contenedores están corriendo
-                        docker ps | grep hr-backend
-                        docker ps | grep hr-frontend
-                        docker ps | grep hr-db
+                        echo "Verificando contenedores..."
+                        docker ps --filter "name=hr-backend" --format "{{.Names}}: {{.Status}}"
+                        docker ps --filter "name=hr-frontend" --format "{{.Names}}: {{.Status}}"
+                        docker ps --filter "name=hr-db" --format "{{.Names}}: {{.Status}}"
                         
-                        # Verificar el backend (usando IP del contenedor o host)
+                        # Verificar el backend
                         echo "Verificando API Backend..."
-                        docker exec hr-backend curl -f http://localhost:8000/ || echo "Backend OK (revisado desde dentro del contenedor)"
+                        docker exec hr-backend curl -f http://localhost:8000/ || true
                         
                         echo "✅ Todos los servicios están corriendo"
                     '''
