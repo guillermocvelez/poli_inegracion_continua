@@ -32,8 +32,13 @@ pipeline {
             steps {
                 echo '🛑 Deteniendo y removiendo contenedores anteriores...'
                 dir('/workspace') {
-                    sh 'docker-compose down hr-backend hr-frontend || true'
-                    sh 'docker rm -f hr-backend hr-frontend || true'
+                    sh '''
+                        # Remover contenedores que puedan estar corriendo
+                        docker rm -f hr-backend hr-frontend hr-db || true
+                        
+                        # Limpiar redes huérfanas
+                        docker network prune -f || true
+                    '''
                 }
             }
         }
