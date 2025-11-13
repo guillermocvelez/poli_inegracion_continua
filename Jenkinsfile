@@ -30,9 +30,10 @@ pipeline {
 
         stage('Stop Old Containers') {
             steps {
-                echo '🛑 Deteniendo contenedores anteriores...'
+                echo '🛑 Deteniendo y removiendo contenedores anteriores...'
                 dir('/workspace') {
-                    sh 'docker-compose stop hr-backend hr-frontend || true'
+                    sh 'docker-compose down hr-backend hr-frontend || true'
+                    sh 'docker rm -f hr-backend hr-frontend || true'
                 }
             }
         }
