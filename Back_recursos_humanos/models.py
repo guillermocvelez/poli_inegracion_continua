@@ -2,10 +2,12 @@
 from database import Base
 from sqlalchemy import Column, Integer, String, Numeric, Date, CheckConstraint
 from datetime import date
+import os
 
 class Empleado(Base):
     __tablename__ = "empleados"
-    __table_args__ = {'schema': 'gestion_humana'}
+    # Solo usar schema en producción (PostgreSQL), no en tests (SQLite)
+    __table_args__ = {'schema': 'gestion_humana'} if not os.getenv("TESTING") else {}
     
     id = Column(Integer, primary_key=True, index=True)
     nombre = Column(String(100), nullable=False)
