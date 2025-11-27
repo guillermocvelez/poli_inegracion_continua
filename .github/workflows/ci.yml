@@ -1,0 +1,44 @@
+name: CI HR App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout de código
+        uses: actions/checkout@v4
+
+      - name: Mostrar entorno
+        run: |
+          echo "🔧 Verificando código fuente..."
+          pwd
+          ls -la
+      
+      # ===== BACKEND =====
+      - name: Build Backend
+        run: |
+          echo "⚙️ Construyendo backend..."
+          docker compose build hr-backend
+      
+      # ===== FRONTEND =====
+      - name: Build Frontend
+        run: |
+          echo "🧱 Construyendo frontend..."
+          docker compose build hr-frontend
+      
+      # ===== TESTS OPCIONALES =====
+      # Si tienes pruebas, actívalas:
+      # - name: Run Backend Tests
+      #   run: docker compose run --rm hr-backend npm test
+          
+      # - name: Run Frontend Tests
+      #   run: docker compose run --rm hr-frontend npm test
+
+      - name: Mostrar imágenes generadas
+        run: docker images
