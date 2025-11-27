@@ -33,7 +33,7 @@ jobs:
           docker compose run --rm hr-backend pytest -v --cov=. --cov-report=xml
 
       - name: Upload Coverage Report
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5.5.1
         with:
           file: ./Back_recursos_humanos/coverage.xml
           flags: backend
@@ -70,7 +70,7 @@ jobs:
           npm run test:coverage
 
       - name: Upload Frontend Coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5.5.1
         with:
           file: ./Front_recursos_humanos/coverage/coverage-final.json
           flags: frontend
