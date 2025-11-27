@@ -17,4 +17,4 @@ ENV/
 .DS_Store
 hr-dv/
 hr-db/
-jenkins_home/
+legacy_jenkins/jenkins_home/

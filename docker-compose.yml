@@ -24,6 +24,10 @@ services:
     volumes:
       - ./Front_recursos_humanos:/app
       - /app/node_modules
+    depends_on:
+      - hr-backend
+    environment:
+      - VITE_API_URL=http://localhost:8000
 
   # HR Backend
   hr-backend:
@@ -35,20 +39,3 @@ services:
       - hr-db
     environment:
       - DATABASE_URL=postgresql://postgres:123456@hr-db:5432/hrdb
-
-  # Jenkins
-  jenkins:
-    container_name: jenkins
-    build: ./jenkins
-    privileged: true
-    user: root
-    ports:
-      - 8080:8080
-      - 50000:50000
-    volumes:
-      - ./jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-      - .:/workspace
-    working_dir: /workspace
-    environment:
-      - DOCKER_HOST=unix:///var/run/docker.sock
