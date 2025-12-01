@@ -194,7 +194,7 @@ onMounted(() => {
       <div class="container">
         <div class="header-content">
           <div>
-            <h1>💼 HR Management</h1>
+            <h1>💼 HR Management - Para la sustentación</h1>
             <p class="subtitle">Sistema de Gestión de Recursos Humanos</p>
           </div>
           <button @click="openCreateModal" class="btn-primary">
